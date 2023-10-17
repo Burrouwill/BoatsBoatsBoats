@@ -14,8 +14,8 @@ router.get('/', retrieveUserInfo, async function(req, res) {
     let user = undefined;
 
     if (res.locals.userData) {
-        admin = Object.values(res.locals.userData?.roles).some(role => role == ROLES_LIST.Admin);
-        user = res.locals.userData.username;
+        admin = Object.values(req.roles).some(role => role == ROLES_LIST.Admin);
+        user = req.user;
     }
 
     let cartSize = undefined;
@@ -37,23 +37,23 @@ router.get('/', retrieveUserInfo, async function(req, res) {
 
 router.get('/login', retrieveUserInfo, function(req, res) {
 
-    if (res.locals.userData) {
+    if (req.user) {
         res.redirect(303, '/');
         return;
     }
 
-    res.render("login", { layout: 'basic', user: res.locals.userData });
+    res.render("login", { layout: 'basic', user: req.user });
 });
 
 router.get('/register', retrieveUserInfo, function(req, res) {
 
     // If they already have user data, they dont need to register
-    if (res.locals.userData) {
+    if (req.user) {
         res.redirect(303, '/');
         return;
     }
 
-    res.render("register", { layout: 'basic', user: res.locals.userData });
+    res.render("register", { layout: 'basic', user: req.user });
 });
 
 router.get('/reset', function(req, res) {
@@ -67,24 +67,30 @@ router.get('/reset/:code', async function(req, res) {
     res.render("passwordResetCode", { layout: 'basic', code: req.params.code });
 });
 
-router.get('/products/:productId/edit', verifyJWT, verifyRoles(ROLES_LIST.Admin), retrieveUserInfo, async function(req, res) {
+router.get('/products/:productId/edit', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin), async function(req, res) {
     // Disable caching
     res.set('Cache-Control', 'no-store');
 
     const controller = new ProductController(res.locals.dburi,'products');
     const product = await controller.getData(req.params.productId);
-    res.render("product_edit", { product, user: res.locals.userData });
+    res.render("product_edit", { product, user: req.user });
 });
 
-router.get('/products/new', verifyJWT, verifyRoles(ROLES_LIST.Admin), retrieveUserInfo, async function(req, res) {
-    res.render("product_edit", { creation: true, user: res.locals.userData, product: { name: "New Product", imgUrl: "/assets/boats/Add.png", description: "Fill out description", price: 14.99 } });
+router.get('/products/new', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin), async function(req, res) {
+    res.render("product_edit", { creation: true, user: req.user, product: { name: "New Product", imgUrl: "/assets/boats/Add.png", description: "Fill out description", price: 14.99 } });
 });
 
 router.get('/privacy', retrieveUserInfo, async function(req, res) {
-    res.render("privacy", { user: res.locals.userData });
+    res.render("privacy", { user: req.user });
 });
 
 router.get('/cart', retrieveUserInfo, async function(req, res) {
+
+    if (!req.user) {
+        res.redirect(303, '/');
+        return;
+    }
+
     let cart = {};
     let cartSize = undefined;
 
@@ -117,11 +123,11 @@ router.get('/cart', retrieveUserInfo, async function(req, res) {
 
     let gst = total * 0.15;
 
-    res.render("cart", { cartList, user: res.locals.userData?.username, total: total.toFixed(2), gst: gst.toFixed(2), cartSize });
+    res.render("cart", { cartList, user: req.user, total: total.toFixed(2), gst: gst.toFixed(2), cartSize });
 });
 
 
-router.get('/order/:orderId', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User),retrieveUserInfo, async function(req, res) {
+router.get('/order/:orderId', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), async function(req, res) {
     let cart = {};
     let cartSize = undefined;
 
@@ -140,13 +146,13 @@ router.get('/order/:orderId', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIS
 
     let gst = order?.total * 0.15;
 
-    res.render("order", { itemList: order?.products ?? [], total: order?.total.toFixed(2), user: res.locals.userData?.username, gst: gst.toFixed(2), cartSize });
+    res.render("order", { itemList: order?.products ?? [], total: order?.total.toFixed(2), user: req.user, gst: gst.toFixed(2), cartSize });
 });
 
 
-router.get('/order', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), retrieveUserInfo, async function(req, res) {
+router.get('/order', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), async function(req, res) {
 
-    if (!res.locals.userData) {
+    if (!req.user) {
         res.redirect(303, '/');
         return;
     }
@@ -161,7 +167,7 @@ router.get('/order', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), 
 
     const controller = new ProductController(res.locals.dburi, 'orders');
 
-    const id = res.locals.userData.id;
+    const id = req.id;
     let orders = await controller.getDataOrder(id);
 
     orders = orders.map((v) => {
@@ -170,7 +176,7 @@ router.get('/order', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), 
         return v;
     });
 
-    res.render("orders", { orders: orders ?? [], user: res.locals.userData.username, cartSize });
+    res.render("orders", { orders: orders ?? [], user: req.user, cartSize });
 });
 
 module.exports = router;
