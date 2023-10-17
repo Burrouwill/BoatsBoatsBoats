@@ -104,7 +104,7 @@ router.post('/sendResetPassword', sendResetPasswordController.sendResetPassword)
 router.post('/resetPassword', retrieveUserInfo,sendResetPasswordController.setResetPassword);
 router.put('/admin', verifyJWT, verifyRoles(ROLES_LIST.Admin), adminController.makeAdmin);
 
-router.get('/finish/:accessToken', async function(req, res) {
+router.get('/finish/:refreshToken', async function(req, res) {
   const refreshToken = req.params.refreshToken;
  
   try {
