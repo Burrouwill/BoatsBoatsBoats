@@ -13,6 +13,8 @@ router.post('/getRecommendations', async function(req, res, next) {
     // Get data from request
     let { username, ip } = req.body;
 
+    console.log(`Looking up up ${ip}`)
+
     if (ipaddrJs.parse(ip).range() != 'public') {
       // It isn't a public ip, this is from an internal network. As we're using the same network, use our public ip
       let ipFind = await sendRequest('https://api.ipify.org', 'get');
