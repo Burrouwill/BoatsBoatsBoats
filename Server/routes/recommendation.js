@@ -11,7 +11,7 @@ router.get('/recommendations', verifyJWT, async function(req, res) {
         return;
     }
 
-    let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    let ip = req.headers['true-client-ip'] || req.socket.remoteAddress;
 
     const userData = {
         username: req.user,
