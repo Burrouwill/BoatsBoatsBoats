@@ -90,7 +90,7 @@ const handleGoogleLogin = async (req, res) => {
     await this.collection.updateOne({ username}, { $set: { refreshToken } });
 
     // Redirect with the access token as a query 
-    res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000, domain: ".onrender.com" });
+    res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
     //res.redirect(`/?accessToken=${accessToken}`);
     //res.json({accessToken});
     res.redirect(`${process.env.HOME_URL}/finish/${accessToken}`);
