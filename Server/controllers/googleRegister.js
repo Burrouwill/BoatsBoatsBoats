@@ -84,8 +84,8 @@ const handleGoogleLogin = async (req, res) => {
     // Update the user's refreshToken in the DB
     await controller.updateRefreshToken(foundUser.username, refreshToken);
 
-    // Redirect with the access token as a query 
-    res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    // Redirect with the access token as a query
+    res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
     res.redirect(`/?accessToken=${accessToken}`);
 
 };
