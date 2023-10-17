@@ -10,6 +10,12 @@ const ROLES_LIST = require('../config/rolesList');
 const verifyRoles = require('../middleware/verifyRoles');
 const retrieveUserInfo = require('../middleware/retrieveUserInfo');
 
+router.get('/allProducts', retrieveUserInfo, async function(req, res) {
+  const controller = new ProductController(res.locals.dburi,'products');
+  const products = await controller.getAllData();
+  res.json(products).status(200);
+});
+
 router.post('/product/insert', verifyJWT, verifyRoles(ROLES_LIST.Admin), async function (req, res, next) {
   const controller = new ProductController(res.locals.dburi, 'products');
   const id = await controller.insertData(req.body)
