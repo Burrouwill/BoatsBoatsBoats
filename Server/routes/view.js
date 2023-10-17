@@ -13,7 +13,7 @@ router.get('/', retrieveUserInfo, async function(req, res) {
     let admin = false;
     let user = undefined;
 
-    if (res.locals.userData) {
+    if (req.user) {
         admin = Object.values(req.roles).some(role => role == ROLES_LIST.Admin);
         user = req.user;
     }
