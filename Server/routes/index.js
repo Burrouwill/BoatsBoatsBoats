@@ -99,7 +99,8 @@ router.post('/resetPassword', retrieveUserInfo,sendResetPasswordController.setRe
 router.put('/admin', verifyJWT, verifyRoles(ROLES_LIST.Admin), adminController.makeAdmin);
 
 router.get('/finish/:accessToken', async function(req, res) {
-  const accessToken = req.params.accessToken;
+  const refreshToken = req.params.refreshToken;
+  res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
   try {
     // Call the /refresh route on your own server
     await axios.get(`${process.env.HOSTED_URL}/cart`, {
