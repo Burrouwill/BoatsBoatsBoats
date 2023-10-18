@@ -88,11 +88,18 @@ let saveButton = document.getElementById('saveButton');
 let deleteButton = document.getElementById('deleteButton');
 let dangerText = document.getElementById('errorText');
 
-let imgData = '{{product.imgUrl}}';
+let imgUrl = '{{product.imgUrl}}';
 
 async function saveProduct() {
 
+    // Validate priceText to be a number in the format of 0.00
+    if (priceText.innerText.match(/^\d+\.\d{2}$/) === null) {
+        dangerText.innerText = "Invalid price format, must be in the format of X.XX";
+        return;
+    }
+
     // Show loading
+    dangerText.innerText = '';
     saveButton.textContent = "Loading";
     saveButton.setAttribute("disabled", true);
     
