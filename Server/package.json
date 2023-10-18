@@ -35,5 +35,8 @@
     "chai": "^4.3.10",
     "mocha": "^10.2.0",
     "mocha-performance": "^0.1.1"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
