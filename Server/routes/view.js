@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var ProductController = require('../controllers/product');
-const verifyJWT = require('../../Server/middleware/verifyJWT');
 const ROLES_LIST = require('../config/rolesList');
 const verifyRoles = require('../middleware/verifyRoles');
 const retrieveUserInfo = require('../middleware/retrieveUserInfo')
