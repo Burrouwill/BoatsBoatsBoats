@@ -68,7 +68,9 @@ h1 {
             </div>
             <p contenteditable="true" id="productDescription">{{ product.description }}</p>
             <a class="btn btn-primary" id="saveButton">Save Product</a>
+            {{#unless undeletable}} 
             <a class="btn btn-danger" id="deleteButton">Delete Product</a>
+            {{/unless}}
         </div>
     </div>
 </div>
