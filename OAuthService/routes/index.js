@@ -6,6 +6,8 @@ const passport = require('passport');
 require('../controllers/googleAPI');
 
 
+router.get('/status', (_, res) => res.json({ status: 'OK' }).status(200));
+
 // Google OAuth - Entry point to Google Auth redirect
 router.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 

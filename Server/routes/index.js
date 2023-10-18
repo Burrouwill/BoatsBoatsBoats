@@ -10,6 +10,8 @@ const ROLES_LIST = require('../config/rolesList');
 const verifyRoles = require('../middleware/verifyRoles');
 const retrieveUserInfo = require('../middleware/retrieveUserInfo');
 
+router.get('/status', (_, res) => res.json({ status: 'OK' }).status(200));
+
 router.get('/allProducts', retrieveUserInfo, async function(req, res) {
   const controller = new ProductController(res.locals.dburi,'products');
   const products = await controller.getAllData();

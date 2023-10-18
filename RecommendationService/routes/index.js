@@ -8,6 +8,8 @@ const fs = require('fs');
 // Read gdp per capita
 gdpPerCapita = fs.readFileSync('./assets/gdp_per_capita_2023.csv').toString().split('\n').map((v) => v.split(',')).map((v) => [v[0], parseFloat(v[1])])
 
+router.get('/status', (_, res) => res.json({ status: 'OK' }).status(200));
+
 router.post('/getRecommendations', async function(req, res, next) {
 
     // Get data from request
