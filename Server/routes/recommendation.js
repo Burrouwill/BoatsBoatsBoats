@@ -6,7 +6,7 @@ const sendRequest = require("../composables/sendRequest").sendRequest;
 // Proxy recommendations to RecommendationService microservice, while attaching context
 router.get('/recommendations', verifyJWT, async function(req, res) {
 
-    if (res.locals.userData) {
+    if (!req.id) {
         res.redirect(303, '/');
         return;
     }
