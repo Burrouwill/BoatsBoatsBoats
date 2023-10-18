@@ -53,7 +53,7 @@ router.delete('/product/:id', verifyJWT, verifyRoles(ROLES_LIST.Admin), async fu
 
 router.post('/orders/insert', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), retrieveUserInfo, async function (req, res, next) {
   const controller = new ProductController(res.locals.dburi, 'orders');
-  req.body.userId = res.locals.userData.id;
+  req.body.userId = req.id;
   const id = await controller.insertData({ ...req.body, time: new Date() });
   res.json(id).status(200);
 });
