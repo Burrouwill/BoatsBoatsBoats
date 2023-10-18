@@ -18,11 +18,9 @@ const handleGoogleRegister = async (req, res) => {
     }
 
     // If Email --> Check if the user has an account in the DB already
-    const foundUser = this.collection.findOne({username: {$in:[email]}});
-
+    const foundUser = await this.collection.findOne({username: {$in:[email]}});
     // If User already in DB --> Authenticate GoogleUser
     if (foundUser) {
-
         // Authenticate
         const loginData = {
             user: email,
@@ -33,7 +31,6 @@ const handleGoogleRegister = async (req, res) => {
 
     // If user not in DB --> Register & Authenticate GoogleUser
     if (!foundUser) {
-
         // Register
         try {
             const newUser = {
