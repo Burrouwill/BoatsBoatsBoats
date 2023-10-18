@@ -72,11 +72,11 @@ router.get('/products/:productId/edit', retrieveUserInfo, verifyRoles(ROLES_LIST
 
     const controller = new ProductController(res.locals.dburi,'products');
     const product = await controller.getData(req.params.productId);
-    res.render("product_edit", { product, user: req.user });
+    res.render("product_edit", { product: { ...product }, user: req.user, deletable: true });
 });
 
 router.get('/products/new', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin), async function(req, res) {
-    res.render("product_edit", { creation: true, user: req.user, product: { name: "New Product", imgUrl: "/assets/boats/Add.png", description: "Fill out description", price: 14.99, undeletable: true } });
+    res.render("product_edit", { creation: true, user: req.user, product: { name: "New Product", imgUrl: "/assets/boats/Add.png", description: "Fill out description", price: 14.99 }, deletable: false });
 });
 
 router.get('/privacy', retrieveUserInfo, async function(req, res) {
