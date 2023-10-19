@@ -1,12 +1,31 @@
 # GroupProjectNWEN304
 
+## Application URL
+
+Our application runs through the free tier of render.com, because of this the server automatically shuts down when not in use. Before accessing the website, please load all three of these urls until they respond with { message: 'OK' }, they will take approximately one minute to load.
+
+https://boatsboatsboats-aovb.onrender.com/status
+https://oauthmicroservice.onrender.com/status
+https://recommendationservice.onrender.com/status
+
+To access the site visit
+
+https://boatsboatsboats-aovb.onrender.com/
+
+An example admin account is provided below for testing purposes:
+
+Username: 
+
+Password:
+
 ## Running
 
 Run the following steps on each of the microservices
 
 Copy example.env to .env and fill out variables, then run
 
-`npm run i`
+`npm i`
+
 `npm run dev`
 
 ## Exposed endpoints:
@@ -65,3 +84,7 @@ Copy example.env to .env and fill out variables, then run
 
 ##### JSON Endpoints
 - Get server status - GET /status
+
+## Fault Tolerance
+
+TODO
