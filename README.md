@@ -28,6 +28,8 @@ Copy example.env to .env and fill out variables, then run
 
 `npm run dev`
 
+The server will be accessable on http://localhost:3000
+
 ## Exposed endpoints:
 
 ### Server
