@@ -54,7 +54,6 @@ const handleGoogleRegister = async (req, res) => {
 }
 
 
-
 // Handles the login & redirection
 const handleGoogleLogin = async (req, res) => {
     const { user, pwd } = req.body;
@@ -82,7 +81,6 @@ const handleGoogleLogin = async (req, res) => {
     );
 
     // Update the user's refreshToken in the DB
-    //await controller.updateRefreshToken(foundUser.username, refreshToken);
     let username = foundUser.username;
     await this.collection.updateOne({ username}, { $set: { refreshToken } });
 
