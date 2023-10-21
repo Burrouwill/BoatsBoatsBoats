@@ -18,7 +18,7 @@ Username: Adminkoolguy420@gmail.com
 
 Password: 123
 
-Please not if you would like to test the reset password and Google Oauth you will need to use your own gmail
+Please note if you would like to test the reset password and Google Oauth you will need to use your own gmail
 
 ## Running
 
