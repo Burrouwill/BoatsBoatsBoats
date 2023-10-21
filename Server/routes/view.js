@@ -71,8 +71,12 @@ router.get('/products/:productId/edit', retrieveUserInfo, verifyRoles(ROLES_LIST
     res.set('Cache-Control', 'no-store');
 
     const controller = new ProductController(res.locals.dburi,'products');
-    const product = await controller.getData(req.params.productId);
-    res.render("product_edit", { product: { ...product }, user: req.user, deletable: true });
+    try {
+        const product = await controller.getData(req.params.productId);
+        res.render("product_edit", { product: { ...product }, user: req.user, deletable: true });
+    } catch (e) {
+        res.status(404).json({ message: "Product not found" });
+    }
 });
 
 router.get('/products/new', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin), async function(req, res) {
@@ -112,12 +116,15 @@ router.get('/cart', retrieveUserInfo, async function(req, res) {
     for (let row of Object.entries(cart)) {
         let productId = row[0], amount = row[1];
 
-        // Replace once working
-        const productInfo = await controller.getData(productId);
+        try {
+            const productInfo = await controller.getData(productId);
 
-        cartList.push({ ...productInfo, amount });
-
-        total += amount * productInfo.price;
+            cartList.push({ ...productInfo, amount });
+    
+            total += amount * productInfo.price;
+        } catch (e) {
+            console.log("User contains invalid product in cart: " + productId);
+        }
     }
 
     let gst = total * 0.15;
@@ -141,11 +148,15 @@ router.get('/order/:orderId', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin, RO
     }
 
     const controller = new ProductController(res.locals.dburi, 'orders');
-    let order = await controller.getData(req.params.orderId);
+    try {
+        let order = await controller.getData(req.params.orderId);
 
-    let gst = order?.total * 0.15;
+        let gst = order?.total * 0.15;
 
-    res.render("order", { itemList: order?.products ?? [], total: order?.total.toFixed(2), user: req.user, gst: gst.toFixed(2), cartSize });
+        res.render("order", { itemList: order?.products ?? [], total: order?.total.toFixed(2), user: req.user, gst: gst.toFixed(2), cartSize });
+    } catch (e) {
+        res.status(404).json({ message: "Order not found" });
+    }
 });
 
 
