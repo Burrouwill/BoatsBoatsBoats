@@ -90,3 +90,63 @@ The server will be accessable on http://localhost:3000
 ## Fault Tolerance
 
 TODO
+
+## Running Postman with Authorization
+
+The server uses a token for authorization, if the route you are wanting to access above is listed as a "HTML" endpoint it should use the following method for authentication:
+
+1. Login to the application using your authorized account
+2. Open developer tools, then open the "Application" tab
+3. Click Cookies > boatsboatsboats-aovb.onrender.com
+4. Copy the value of the "jwt" cookie
+5. Click "Cookies" underneath the send button on Postman
+6. Add the domain name boatsboatsboats-aovb.onrender.com
+7. Add a cookie with the name "jwt" and the value you copied previously
+
+
+To run json endpoints use the above method, with these additional steps:
+
+1. Login to the application using your authorized account
+2. Add an item to your cart
+3. Open developer tools, then open the "Application" tab
+4. Click Local Storage > boatsboatsboats-aovb.onrender.com
+5. Copy the value of the "accessToken" entry
+6. Click "Authorization" tab on Postman and select type of bearer token
+7. Paste the value into the box
+
+**Note: This token expires, so if it gives you an authorization error it has expired**
+
+
+
+## Cache Test Cases
+
+Using postman and taking the `jwt` cookie from a logged in admin user, and adding it to postman, the following requests should have their cache control set to no cache so that the results are always updated. See above for running the requests.
+
+You can use the postman test
+
+```javascript
+pm.test("Cache control header set to no cache", function () {
+    pm.response.to.have.header("Cache-Control");
+    pm.response.to.be.header("Cache-Control", "no-store")
+});
+```
+
+- https://boatsboatsboats-aovb.onrender.com/products/6506347cf848557fbb47fbb1/edit
+- https://boatsboatsboats-aovb.onrender.com/order
+- https://boatsboatsboats-aovb.onrender.com/cart
+
+
+Cache should be enabled on these pages:
+
+You can use the postman test
+```javascript
+pm.test("Cache control header set to cache", function () {
+    let value = pm.response.headers.get("Cache-Control");
+    pm.expect(value).to.not.equal('no-store');
+});
+```
+
+- https://boatsboatsboats-aovb.onrender.com/order/650ba01220652fe2b4144ae0
+- https://boatsboatsboats-aovb.onrender.com/privacy
+
+These all pass
