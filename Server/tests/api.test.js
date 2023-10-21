@@ -9,7 +9,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 const responseTimesMap = new Map();
-const numIterations = 1;
+const numIterations = 10;
 
 
 const user = {
@@ -23,7 +23,7 @@ describe('Testing Product Endpoints', function () {
 
   //GET
 
-  it('should test the API', async function () {
+  it('should test the API for getting products', async function () {
 
     const productId = '65063375533acb75f17a5e96';
 
@@ -52,7 +52,7 @@ describe('Testing Product Endpoints', function () {
     const averageResponseTime = totalResponseTime / numIterations;
 
     responseTimesMap.set('GET_PRODUCT', averageResponseTime);
-    console.log(`Average Response Time: ${averageResponseTime} ms`);
+    console.log(`Average Response Time for GET: ${averageResponseTime} ms`);
 
   });
 
@@ -91,40 +91,85 @@ describe('Testing Product Endpoints', function () {
     const averageResponseTime = totalResponseTime / numIterations;
 
     responseTimesMap.set('POST_PRODUCT', averageResponseTime);
-    console.log(`Average Response Time for Post: ${averageResponseTime} ms`);
+    console.log(`Average Response Time for POST: ${averageResponseTime} ms`);
 
   });
+
+
+  // PUT
+
+  it('should test the API for updating a product', async function () {
+    
+    const controller = new ProductController(process.env.DB_URI, 'products');
+    const productIdToUpdate = await controller.getProductIdByName('NOT_A_PRODUCT')
+    
+    const updatedProductData = {
+      name: 'NOT_A_PRODUCT',
+      description: 'A sample product description',
+      price: 19.99,
+    };
+
+    const token = jwt.sign({ UserInfo: user }, process.env.ACCESS_TOKEN_SECRET);
+
+    const responseTimes = [];
+
+    for (let i = 0; i < numIterations; i++) {
+      const startTime = Date.now();
+
+      const res = await chai
+        .request(app)
+        .put(`/product/${productIdToUpdate}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(updatedProductData);
+
+      const endTime = Date.now();
+
+      const responseTime = endTime - startTime;
+      responseTimes.push(responseTime);
+
+      expect(res).to.have.status(200);
+    }
+
+    // Calculate the average response time
+    const totalResponseTime = responseTimes.reduce((acc, time) => acc + time, 0);
+    const averageResponseTime = totalResponseTime / numIterations;
+
+    responseTimesMap.set('PUT_PRODUCT', averageResponseTime);
+    console.log(`Average Response Time for PUT: ${averageResponseTime} ms`);
+  });
+
+  // DELETE
 
   it('should test the API for deleting a product', async function () {
     // Replace 'productIdToDelete' with the actual product ID you want to delete
     const controller = new ProductController(process.env.DB_URI, 'products');
     const productIdToDelete = await controller.getProductIdByName('NOT_A_PRODUCT')
     const token = jwt.sign({ UserInfo: user }, process.env.ACCESS_TOKEN_SECRET);
-  
+
     const responseTimes = [];
-  
+
     for (let i = 0; i < numIterations; i++) {
       const startTime = Date.now();
-  
+
       const res = await chai
         .request(app)
         .delete(`/product/${productIdToDelete}`)
         .set('Authorization', `Bearer ${token}`);
-  
+
       const endTime = Date.now();
-  
+
       const responseTime = endTime - startTime;
       responseTimes.push(responseTime);
-  
+
       expect(res).to.have.status(200);
     }
-  
+
     // Calculate the average response time
     const totalResponseTime = responseTimes.reduce((acc, time) => acc + time, 0);
     const averageResponseTime = totalResponseTime / numIterations;
-  
+
     responseTimesMap.set('DELETE_PRODUCT', averageResponseTime);
-    console.log(`Average Response Time for Delete: ${averageResponseTime} ms`);
+    console.log(`Average Response Time for DELETE: ${averageResponseTime} ms`);
   });
 
 
