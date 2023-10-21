@@ -88,6 +88,9 @@ router.get('/privacy', retrieveUserInfo, async function(req, res) {
 });
 
 router.get('/cart', retrieveUserInfo, async function(req, res) {
+    
+    // Disable caching
+    res.set('Cache-Control', 'no-store');
 
     if (!req.user) {
         res.redirect(303, '/');
@@ -161,6 +164,8 @@ router.get('/order/:orderId', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin, RO
 
 
 router.get('/order', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), async function(req, res) {
+    // Disable caching
+    res.set('Cache-Control', 'no-store');
 
     if (!req.user) {
         res.redirect(303, '/');
