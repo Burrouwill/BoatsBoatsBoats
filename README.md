@@ -14,9 +14,9 @@ https://boatsboatsboats-aovb.onrender.com/
 
 An example admin account is provided below for testing purposes:
 
-Username: 
+Username: Adminkoolguy420@gmail.com
 
-Password:
+Password: 123
 
 ## Running
 
