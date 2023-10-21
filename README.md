@@ -89,7 +89,13 @@ The server will be accessable on http://localhost:3000
 
 ## Fault Tolerance
 
-TODO
+Our server utilises many different error handling techniques to provide a high availability service.
+We ran a variety of different tests to ensure the api was acting appropriately given user inputs as documented in the test cases and cache test pages sections.
+We utilise try/catch in spots with user input, so that user inputs cannot have any effect on the stability of the system.
+The microservice architecture means that in theory if we had more resources outside of a university project context, we could make duplicates of each microservice each with a load balancer in order to seamlessly switch between them in the case any fail. This is because we utilise a stateless rest api, all state is client-side or in Json Web Tokens.
+If any of our microservices goes down, the default state is to be safe and not allow for different behavior to occur which could allow for exploits if the server is not behaving as expected. If the microservice is down, the client simpys shows nothing in its spot and it is not even known there is a problem. If the oauth service is down, google users are simply unable to login however all other functionality remains stable.
+Our deployment settings are set to restart the server upon any crashing occuring, meaning minimal downtime even in the worst case scenario. 
+
 
 ## Running Postman with Authorization
 
