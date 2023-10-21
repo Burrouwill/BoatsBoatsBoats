@@ -47,7 +47,7 @@ const handleNewUser = async (req, res) => {
 
 // Func to check email validity
 function isValidEmail(email) {
-    const emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;;
+    const emailRegex = /^[a-z0-9]+(\.[a-z0-9]+)*@[a-z]+\.[a-z]{2,3}$/;
     return emailRegex.test(email);
 }
 
