@@ -24,13 +24,13 @@ router.post('/product/insert', verifyJWT, verifyRoles(ROLES_LIST.Admin), async f
   res.json(id).status(200);
 });
 
-router.put('/product/:id', verifyJWT, verifyRoles(ROLES_LIST.Admin), async function (req, res, next) { // Admin access required verifyRoles arg specifies which roles can access it, user will only need one to match.
+router.put('/product/:id', verifyJWT, verifyRoles(ROLES_LIST.Admin), async function (req, res, next) { 
   const controller = new ProductController(res.locals.dburi, 'products');
   await controller.replaceData(req.params.id, req.body)
   res.json({ message: 'success' }).status(200);
 });
 
-router.get('/product/:id', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), async function (req, res, next) { // User access only    // verifyJWT added for testing, requires auth token to access end point. verifyRole() passing in whichever role we want to be able to access this end point, method checks that client has permissions
+router.get('/product/:id', verifyJWT, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.User), async function (req, res, next) { 
   const controller = new ProductController(res.locals.dburi, 'products');
 
   const data = await controller.getData(req.params.id);
