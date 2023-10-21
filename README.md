@@ -87,7 +87,7 @@ The server will be accessable on http://localhost:3000
 ##### JSON Endpoints
 - Get server status - GET /status
 
-## DB Desigmn
+##### DB Design
 The DB is hosted through MongoDB Atlas which is a multi-cloud database service. Under the 'shop' Database data is stored in the following collections.
     -Products: stores all the products
     -Users: stores all the users with encrypted password and their role
