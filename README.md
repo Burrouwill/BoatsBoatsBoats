@@ -87,12 +87,12 @@ The server will be accessable on http://localhost:3000
 ##### JSON Endpoints
 - Get server status - GET /status
 
-##### DB Design
+## DB Design
 The DB is hosted through MongoDB Atlas which is a multi-cloud database service. Under the 'shop' Database data is stored in the following collections.
-    -Products: stores all the products
-    -Users: stores all the users with encrypted password and their role
-    -Orders: stores all orders from all users. Orders are timestamped and the user and products they ordered are stored
-    -Resets: stores the one time reset codes for the users. Set with a time to life to let them expire after 30mins
+-Products: stores all the products
+-Users: stores all the users with encrypted password and their role
+-Orders: stores all orders from all users. Orders are timestamped and the user and products they ordered are stored
+-Resets: stores the one time reset codes for the users. Set with a time to life to let them expire after 30mins
 
 ## Fault Tolerance
 
