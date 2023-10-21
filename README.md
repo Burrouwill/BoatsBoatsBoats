@@ -179,65 +179,93 @@ The headers for each request should include the following (If not autofilled by 
 
 ##### HTML Endpoints
 - Home Page - /
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/
-
+    ```
 - Login Page - /login
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/login
-
+    ```
 - Register Page - /register
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/register 
-
+    ```
 - Send Reset Password - /reset
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/reset
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Reset Password Confirm - /reset/:code
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/reset/resetCode *This must be a valid reset code acquired from /reset!*
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Edit Product - /products/:productId/edit
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/products/6506340f3fa56732141b90fd/edit *ID must be valid*
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - New Product - /products/new
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/products/new
     Auth.Bearer: *Valid accessToken*
+    ```
 
 - Privacy Policy - /privacy
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/privacy
+    ```
 
 - View Cart - /cart
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/cart
     Auth.Bearer: *Valid accessToken*
+    ```
 
 - View Order - /order/:orderId
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/order/:orderId *ID must be valid*
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Google Auth Entrypoint - /auth/google
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/auth/google
+  ```
 
 - Get cart recommendations - /recommendations
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/recommendations
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Applies a refresh token cookie - /finish/:refreshToken
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/finish/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWlua29vbGd1eTQyMEBnbWFpbC5jb20iLCJpYXQiOjE2OTc5MjY0MDAsImV4cCI6MTY5ODAxMjgwMH0.tfjjFJPvErpwS_J3KrkCcStyHFs4U_8u9LM6bt-IdjU *Assuming this is a valid refreshToken & user logged in*
     *This is an internal function used to pass cookie info from OAuth -> Server*
+  ```
 
 
 ##### JSON Endpoints
 *See Server/tests/ for additional info on DB endpoints*
 
 - Get server status - GET /status
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/status
+  ```
 
 - Fetch all products - GET /allProducts
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/allProducts
     Auth.Bearer: *Valid accessToken*
     *Might take a while as there are many images*
+  ```
 
 - Insert product - POST /product/insert
+  ```
     POST @ https://boatsboatsboats-aovb.onrender.com/product/insert 
     Auth.Bearer: *Valid accessToken*
     Body: {
@@ -248,8 +276,10 @@ The headers for each request should include the following (If not autofilled by 
             "id": 8
           }
     *Body contains the params you wish to update & ID handled by seq generator in MngoDB*
+  ```
 
 - Update product - PUT /product/:id
+  ```
     PUT @ https://boatsboatsboats-aovb.onrender.com/product/65063375533acb75f17a5e96 *Suffix = product ID*
     Auth.Bearer: *Valid accessToken*
     Body: {
@@ -260,16 +290,21 @@ The headers for each request should include the following (If not autofilled by 
             "id": 8
           }
     *Body contains the params you wish to update*
-    
+    ```
 - Get product details - GET /product/:id
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/product/65063375533acb75f17a5e96 *Suffix = product ID*
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Delete product - DELETE /product/:id
+  ```
     DELETE @ https://boatsboatsboats-aovb.onrender.com/product/notAProductID *Suffix = product ID*
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Create order - POST /orders/insert
+  ```
     POST @ https://boatsboatsboats-aovb.onrender.com/orders/insert 
     Auth.Bearer: *Valid accessToken*
     Body: {
@@ -278,8 +313,10 @@ The headers for each request should include the following (If not autofilled by 
             "price": 25.99
           }
     *Body contains the params you wish to add to orders*
+  ```
 
 - Update order - PUT /orders/:id
+  ```
     PUT @ https://boatsboatsboats-aovb.onrender.com/orders/notAProductId *Suffix = product ID* 
     Auth.Bearer: *Valid accessToken*
     Body: {
@@ -288,45 +325,61 @@ The headers for each request should include the following (If not autofilled by 
             "price": 25.99
           }
     *Body contains the params you wish to update*
+  ```
 
 - Get order details - GET /orders/:id
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/orders/notAProductId *Suffix = product ID* 
     Auth.Bearer: *Valid accessToken*
+    ```
 
 - Delete order - DELETE /orders/:id
+  ```
     DELETE @ https://boatsboatsboats-aovb.onrender.com/orders/notAProductId *Suffix = product ID* 
     Auth.Bearer: *Valid accessToken*
+  ```
 
 - Register new user - POST /register
+  ```
     POST @ https://boatsboatsboats-aovb.onrender.com/register
     Body: {
             "user": "newuseremail@gmail.com",
             "pwd": "aValidPassword"
           }
     *Adds new user to DB if valid credentials passed*
+  ```
 
 - Login a new user - POST /auth
+  ```
     POST @ https://boatsboatsboats-aovb.onrender.com/auth
     Body: {
             "user": "Userkoolguy420@gmail.com",
             "pwd": "123"
           }
+  ```
             
 - Fetch a new refresh token for a user - GET /refresh
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/refresh
     *This only works if user already Authenticated & has valid refreshToken in DB*
+    ```
 
 - Log a user out - GET /logout
+  ```
     GET @ https://boatsboatsboats-aovb.onrender.com/logout
     *Logs whichever user was logged in, clears refresh token from cookie if there is one*
+  ```
 
 - Sends a password reset email - POST /sendResetPassword
+  ```
     POST @ https://boatsboatsboats-aovb.onrender.com/sendResetPassword 
     Body: {
             "username": "someValidRegisteredEmail@gmail.com"
           }
+  ```
 
 - Applies a new password - POST /resetPassword
+  ```
     POST @ https://boatsboatsboats-aovb.onrender.com/resetPassword
     Auth.Bearer: *Valid accessToken*
     Body: {
@@ -334,11 +387,14 @@ The headers for each request should include the following (If not autofilled by 
             "password": "123",
             "code": "1234567" *Code must be a valid one sent to email via posting at /sendResetPassword end*
           }
+  ```
 
 - Makes a user admin - PUT /admin
+  ```
     PUT @ https://boatsboatsboats-aovb.onrender.com/admin
     Body: {
             "user": "emailOfUserYouWantToMakeAnAdmin@gmail.com",
             "pwd": "123"
           }
-    *This only works if the user sending the request is an Admin* 
+    *This only works if the user sending the request is an Admin*
+  ```
