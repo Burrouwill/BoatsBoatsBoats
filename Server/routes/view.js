@@ -187,7 +187,11 @@ router.get('/order', retrieveUserInfo, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.
 
     orders = orders.map((v) => {
         // Calculate itemCount
-        v.itemCount = Object.values(v.products).map((v) => parseInt(v.quantity)).reduce((a, b) => a + b, 0);
+        try {
+            v.itemCount = Object.values(v.products).map((v) => parseInt(v.quantity)).reduce((a, b) => a + b, 0);
+        } catch (e) {
+            v.itemCount = 0;
+        }
         return v;
     });
 
