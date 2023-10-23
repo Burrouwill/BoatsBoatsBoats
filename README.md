@@ -230,7 +230,12 @@ The headers for each request should include the following (If not autofilled by 
     GET @ https://boatsboatsboats-aovb.onrender.com/order/:orderId *ID must be valid*
     Auth.Bearer: *Valid accessToken*
   ```
-
+- View Orders - /order
+  ```
+    GET @ https://boatsboatsboats-aovb.onrender.com/order
+    Auth.Bearer: *Valid accessToken*
+  ```
+  
 - Google Auth Entrypoint - /auth/google
   ```
     GET @ https://boatsboatsboats-aovb.onrender.com/auth/google
