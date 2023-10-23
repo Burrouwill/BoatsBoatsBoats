@@ -20,6 +20,10 @@ Password: 123
 
 Please note if you would like to test the reset password and Google Oauth you will need to use your own gmail
 
+GitHub:
+
+https://github.com/Burrouwill/BoatsBoatsBoats
+
 ## Running
 
 Run the following steps on each of the microservices
